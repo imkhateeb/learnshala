@@ -1,5 +1,5 @@
 {
-  "name": "getreferred-problem-service",
+  "name": "problem-service",
   "version": "1.0.0",
   "description": "This is an admin service to manage problems of the Algocode platform",
   "main": "index.js",
