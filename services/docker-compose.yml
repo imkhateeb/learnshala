@@ -1,0 +1,54 @@
+version: "3.8"
+
+services:
+  submission-service:
+    build: ./submission
+    ports:
+      - "3003:3003"
+    volumes:
+      - ./submission:/app
+      - /app/node_modules
+    depends_on:
+      - redis
+    environment:
+      - NODE_ENV=development
+
+  problem-service:
+    build: ./problem
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./problem:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+
+  evaluator-service:
+    build: ./evaluator
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./evaluator:/app
+      - /app/node_modules
+    depends_on:
+      - redis
+    environment:
+      - NODE_ENV=development
+
+  socket-service:
+    build: ./socket
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./socket:/app
+      - /app/node_modules
+    depends_on:
+      - redis
+    environment:
+      - NODE_ENV=development
+
+  redis:
+    image: redis:alpine
+    restart: always
+    ports:
+      - "6379:6379"

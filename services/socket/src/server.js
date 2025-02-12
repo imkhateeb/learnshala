@@ -10,7 +10,7 @@ const httpServer = createServer(app);
 const redisCache = new Redis();
 
 const corsOptions = {
-  origin: ["http://localhost:5500", "http://127.0.0.1:5500"],
+  origin: ["http://localhost:3003", "http://127.0.0.1:3003"],
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
 };
@@ -19,7 +19,7 @@ app.use(cors(corsOptions));
 
 const io = new Server(httpServer, {
   cors: {
-    origin: ["http://localhost:5000", "http://127.0.0.1:5000"],
+    origin: ["http://localhost:3003", "http://127.0.0.1:3003"],
     methods: ["GET", "POST"],
     credentials: true,
   },
@@ -70,6 +70,8 @@ app.post("/sendPayload", async (req, res) => {
   }
 });
 
-httpServer.listen(3001, () => {
-  console.log("Server is running on port 3001");
+PORT = process.env.PORT || 3002;
+
+httpServer.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
