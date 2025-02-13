@@ -47,6 +47,18 @@ services:
     environment:
       - NODE_ENV=production
 
+  job-search-service:
+    build: ./job-search
+    ports:
+      - "3004:3004"
+    volumes:
+      - ./job-search:/app
+      - /app/node_modules
+    depends_on:
+      - redis
+    environment:
+      - NODE_ENV=production
+
   redis:
     image: redis:alpine
     restart: always

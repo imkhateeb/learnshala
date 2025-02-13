@@ -3,7 +3,7 @@ import Redis from "ioredis";
 import ServerConfig from "./serverConfig";
 
 const redisConfig = {
-  port: ServerConfig.REDIS_PORT,
+  port: Number(ServerConfig.REDIS_PORT),
   host:
     ServerConfig.NODE_ENV === "development"
       ? ServerConfig.REDIS_HOST_DEV
