@@ -7,7 +7,11 @@ const cors = require("cors");
 const app = express();
 app.use(express.json());
 const httpServer = createServer(app);
-const redisCache = new Redis();
+const redisCache = new Redis({
+  host: "redis",
+  port: 6379,
+  retryStrategy: (times) => Math.min(times * 50, 2000), // optional
+});
 
 const corsOptions = {
   origin: ["http://localhost:3003", "http://127.0.0.1:3003"],
@@ -46,6 +50,10 @@ io.on("connection", (socket) => {
       console.error("Error retrieving connection ID from Redis:", error);
     }
   });
+});
+
+app.get("/api/v1/ping", (req, res) => {
+  res.send("pong");
 });
 
 app.post("/sendPayload", async (req, res) => {

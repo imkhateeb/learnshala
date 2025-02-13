@@ -38,7 +38,7 @@ services:
   socket-service:
     build: ./socket
     ports:
-      - "3001:3001"
+      - "3002:3002"
     volumes:
       - ./socket:/app
       - /app/node_modules
