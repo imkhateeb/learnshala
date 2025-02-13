@@ -71,6 +71,18 @@ services:
     environment:
       - NODE_ENV=production
 
+  merchandise-service:
+    build: ./merchandise
+    ports:
+      - "3006:3006"
+    volumes:
+      - ./merchandise:/app
+      - /app/node_modules
+    depends_on:
+      - redis
+    environment:
+      - NODE_ENV=production
+
   redis:
     image: redis:alpine
     restart: always
