@@ -3,15 +3,12 @@ const { createServer } = require("http");
 const { Server } = require("socket.io");
 const Redis = require("ioredis");
 const cors = require("cors");
+const redisConfig = require("./config/redis.config");
 
 const app = express();
 app.use(express.json());
 const httpServer = createServer(app);
-const redisCache = new Redis({
-  host: "redis",
-  port: 6379,
-  retryStrategy: (times) => Math.min(times * 50, 2000), // optional
-});
+const redisCache = new Redis(redisConfig);
 
 const corsOptions = {
   origin: ["http://localhost:3003", "http://127.0.0.1:3003"],

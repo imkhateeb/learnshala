@@ -3,8 +3,11 @@ const Redis = require("ioredis");
 const ServerConfig = require("./serverConfig");
 
 const redisConfig = {
-  port: ServerConfig.REDIS_PORT || 6379,
-  host: ServerConfig.REDIS_HOST || "redis",
+  port: ServerConfig.REDIS_PORT,
+  host:
+    ServerConfig.NODE_ENV === "development"
+      ? ServerConfig.REDIS_HOST_DEV
+      : ServerConfig.REDIS_HOST_PROD,
   maxRetriesPerRequest: null,
 };
 

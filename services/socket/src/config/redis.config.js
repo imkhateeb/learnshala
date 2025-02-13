@@ -1,6 +1,4 @@
-import Redis from "ioredis";
-
-import ServerConfig from "./serverConfig";
+const ServerConfig = require("./server.config");
 
 const redisConfig = {
   port: ServerConfig.REDIS_PORT,
@@ -8,9 +6,7 @@ const redisConfig = {
     ServerConfig.NODE_ENV === "development"
       ? ServerConfig.REDIS_HOST_DEV
       : ServerConfig.REDIS_HOST_PROD,
-  maxRetriesPerRequest: null,
+  retryStrategy: (times) => Math.min(times * 50, 2000), // optional
 };
 
-const redisConnection = new Redis(redisConfig);
-
-export default redisConnection;
+module.exports = redisConfig;

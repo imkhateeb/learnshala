@@ -11,7 +11,7 @@ services:
     depends_on:
       - redis
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=production
 
   problem-service:
     build: ./problem
@@ -21,7 +21,7 @@ services:
       - ./problem:/app
       - /app/node_modules
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=production
 
   evaluator-service:
     build: ./evaluator
@@ -33,7 +33,7 @@ services:
     depends_on:
       - redis
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=production
 
   socket-service:
     build: ./socket
@@ -45,7 +45,7 @@ services:
     depends_on:
       - redis
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=production
 
   redis:
     image: redis:alpine
