@@ -1,7 +1,7 @@
-const { authService } = require("../services");
 const { StatusCodes } = require("http-status-codes");
 
 const ValidationError = require("../errors/validation.error");
+const authService = require("../services/auth.service");
 
 const register = async (req, res, next) => {
   const { name, email, password, role } = req.body;

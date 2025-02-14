@@ -1,5 +1,5 @@
 const InternalServerError = require("../errors/internalservererror.error");
-const { userService } = require("../services");
+const userService = require("../services/user.service");
 
 const getUser = async (req, res, next) => {
   try {

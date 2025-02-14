@@ -1,24 +1,5 @@
 const { Enrollment } = require("../models");
-
-// Helper function to populate detailed course data in enrollment
-const populateEnrollmentData = (query) => {
-  return query.populate({
-    path: "course",
-    populate: [
-      { path: "instructor", select: "name email photo" },
-      {
-        path: "reviews",
-        populate: {
-          path: "user",
-          select: "name email photo",
-        },
-      },
-      { path: "syllabus" },
-      { path: "enrolledStudents", select: "photo" },
-      { path: "likes", select: "photo" },
-    ],
-  });
-};
+const populateEnrollmentData = require("../utils/populateData/populateEnrollmentData");
 
 const enrollmentRepository = {};
 

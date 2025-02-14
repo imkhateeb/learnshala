@@ -2,22 +2,7 @@ const Course = require("../models/course.model");
 const Enrollment = require("../models/enrollment.model");
 const Syllabus = require("../models/syllabus.model");
 const Review = require("../models/review.model");
-
-// Helper function to populate course data
-const populateCourseData = (query) => {
-  return query
-    .populate("instructor", "name email photo")
-    .populate({
-      path: "reviews",
-      populate: {
-        path: "user",
-        select: "name email photo",
-      },
-    })
-    .populate("syllabus")
-    .populate("enrolledStudents", "photo")
-    .populate("likes", "photo");
-};
+const populateCourseData = require("../utils/populateData/populateCourseData");
 
 const getCourses = async (filters, page = 1, limit = 10) => {
   const response = await populateCourseData(
@@ -93,28 +78,6 @@ const markCourseAsCompleted = async (enrollmentId) => {
   return enrollment;
 };
 
-const addSyllabusToCourse = async (courseId, syllabusData) => {
-  const syllabus = await Syllabus.create(syllabusData);
-  const course = await Course.findOne({ _id: courseId });
-  course.syllabus.push(syllabus._id);
-  await course.save();
-  const updatedCourse = await populateCourseData(Course.findById(courseId));
-  return updatedCourse;
-};
-
-const markSyllabusAsCompleted = async (syllabusId, userId) => {
-  const syllabus = await Syllabus.findById(syllabusId);
-  syllabus.completed.push(userId);
-  await syllabus.save();
-  return syllabus;
-};
-
-const getSyllabusOfACourse = async (courseId) => {
-  const syllabus = await Syllabus.find({ course: courseId });
-
-  return syllabus;
-};
-
 const courseRepository = {
   getCourses,
   getCourseByCourseId,
@@ -126,9 +89,6 @@ const courseRepository = {
   enrollCourse,
   reviewCourse,
   markCourseAsCompleted,
-  addSyllabusToCourse,
-  markSyllabusAsCompleted,
-  getSyllabusOfACourse,
 };
 
 module.exports = courseRepository;

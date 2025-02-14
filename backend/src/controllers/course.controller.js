@@ -1,4 +1,4 @@
-const { courseService } = require("../services");
+const courseService = require("../services/course.service");
 
 const createCourse = async (req, res, next) => {
   const course = req.body;
@@ -141,60 +141,6 @@ const markCourseAsCompleted = async (req, res, next) => {
     next(error);
   }
 };
-const addSyllabusToCourse = async (req, res, next) => {
-  const { courseId } = req.params;
-  const syllabusData = req.body;
-  const { _id: instructorId } = req.user;
-  try {
-    const course = await courseService.addSyllabusToCourse(
-      courseId,
-      syllabusData
-    );
-    res.status(200).json({
-      status: "success",
-      msg: "Syllabus added to course successfully",
-      data: { course },
-      error: {},
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
-const markSyllabusAsCompleted = async (req, res, next) => {
-  const { syllabusId } = req.params;
-  const { _id: userId } = req.user;
-  try {
-    const syllabus = await courseService.markSyllabusAsCompleted(
-      syllabusId,
-      userId
-    );
-    res.status(200).json({
-      status: "success",
-      msg: "Syllabus marked as completed successfully",
-      data: { syllabus },
-      error: {},
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
-const calculateProgress = async (req, res, next) => {
-  const { courseId } = req.params;
-  const { _id: userId } = req.user;
-  try {
-    const progress = await courseService.calculateProgress(courseId, userId);
-    res.status(200).json({
-      status: "success",
-      msg: "Progress fetched as completed successfully",
-      data: { progress },
-      error: {},
-    });
-  } catch (error) {
-    next(error);
-  }
-};
 
 const getTopCourses = async (req, res, next) => {
   try {
@@ -222,9 +168,6 @@ const courseController = {
   likeOrUnlikeCourse,
   reviewCourse,
   markCourseAsCompleted,
-  addSyllabusToCourse,
-  markSyllabusAsCompleted,
-  calculateProgress,
   getTopCourses,
 };
 module.exports = courseController;
