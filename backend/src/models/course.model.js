@@ -1,26 +1,27 @@
 const mongoose = require("mongoose");
+const { ENROLLMENT_STATUS } = require("../constants/enums");
 const Schema = mongoose.Schema;
 
 const courseSchema = new Schema({
   name: {
     type: String,
-    required: true,
+    required: [true, "Course name is required."],
     trim: true,
     unique: true,
   },
   instructor: {
     type: Schema.Types.ObjectId,
     ref: "User",
-    required: true,
+    required: [true, "Instructor is required."],
   },
   description: {
     type: String,
-    required: true,
+    required: [true, "Description is required."],
     trim: true,
   },
   enrollmentStatus: {
     type: String,
-    enum: ["Open", "Closed", "In Progress"],
+    enum: Object.values(ENROLLMENT_STATUS),
     default: "Open",
   },
   thumbnail: {
@@ -29,16 +30,15 @@ const courseSchema = new Schema({
   },
   duration: {
     type: Number,
-    required: true,
+    required: [true, "Duration is required."],
   },
   courseSchedule: {
     type: String,
-    required: true,
+    required: [true, "Course schedule is required."],
   },
-  location: {
-    type: String,
-    enum: ["Online", "In-Person"],
-    default: "Online",
+  suggestions: {
+    type: [String],
+    default: [],
   },
   prerequisites: {
     type: [String],

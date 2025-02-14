@@ -1,23 +1,25 @@
 const mongoose = require("mongoose");
+const { RESOURCES_TYPE_ENUM } = require("../constants/enums");
 const Schema = mongoose.Schema;
 
 const syllabusSchema = new Schema({
   course: {
     type: Schema.Types.ObjectId,
     ref: "Course",
-    required: true,
+    required: [true, "Course ID is required"],
   },
   week: {
     type: Number,
-    required: true,
+    required: [true, "Week number is required"],
+    min: [1, "Week number must be at least 1"],
   },
   topic: {
     type: String,
-    required: true,
+    required: [true, "Topic is required"],
   },
   description: {
     type: String,
-    required: true,
+    required: [true, "Description is required"],
   },
   completed: [
     {
@@ -26,7 +28,21 @@ const syllabusSchema = new Schema({
     },
   ],
   resources: {
-    type: [String],
+    type: [
+      {
+        title: { type: String, required: [true, "Resource title is required"] },
+        url: { type: String, required: [true, "Resource URL is required"] },
+        type: {
+          type: String,
+          enum: Object.values(RESOURCES_TYPE_ENUM),
+          required: [true, "Resource type is required"],
+        },
+      },
+    ],
+    default: [],
+  },
+  exercises: {
+    type: [{ type: Schema.Types.ObjectId, ref: "Problem" }],
     default: [],
   },
   createdAt: {

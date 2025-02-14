@@ -36,6 +36,10 @@ const enrollmentSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  ai_feedback: {
+    type: String,
+    default: "",
+  },
   updatedAt: {
     type: Date,
     default: Date.now,
